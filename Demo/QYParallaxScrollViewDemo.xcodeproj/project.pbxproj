@@ -13,6 +13,8 @@
 		F26736C8203EA1090079FB76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F26736C7203EA1090079FB76 /* Assets.xcassets */; };
 		F26736CB203EA1090079FB76 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F26736C9203EA1090079FB76 /* LaunchScreen.storyboard */; };
 		F26736CE203EA1090079FB76 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F26736CD203EA1090079FB76 /* main.m */; };
+		F26736DC203EA2DE0079FB76 /* QYParallaxScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F26736DB203EA2DE0079FB76 /* QYParallaxScrollView.m */; };
+		F26736DF203EA3500079FB76 /* QYParallaxScrollViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F26736DE203EA3500079FB76 /* QYParallaxScrollViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		F26736CA203EA1090079FB76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F26736CC203EA1090079FB76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F26736CD203EA1090079FB76 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F26736DA203EA2DE0079FB76 /* QYParallaxScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QYParallaxScrollView.h; sourceTree = "<group>"; };
+		F26736DB203EA2DE0079FB76 /* QYParallaxScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QYParallaxScrollView.m; sourceTree = "<group>"; };
+		F26736DD203EA3500079FB76 /* QYParallaxScrollViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QYParallaxScrollViewCell.h; sourceTree = "<group>"; };
+		F26736DE203EA3500079FB76 /* QYParallaxScrollViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QYParallaxScrollViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +48,7 @@
 		F26736B2203EA1080079FB76 = {
 			isa = PBXGroup;
 			children = (
+				F26736D9203EA2DE0079FB76 /* QYParallaxScrollView */,
 				F26736BD203EA1090079FB76 /* QYParallaxScrollViewDemo */,
 				F26736BC203EA1090079FB76 /* Products */,
 			);
@@ -69,6 +76,18 @@
 				F26736CD203EA1090079FB76 /* main.m */,
 			);
 			path = QYParallaxScrollViewDemo;
+			sourceTree = "<group>";
+		};
+		F26736D9203EA2DE0079FB76 /* QYParallaxScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				F26736DA203EA2DE0079FB76 /* QYParallaxScrollView.h */,
+				F26736DB203EA2DE0079FB76 /* QYParallaxScrollView.m */,
+				F26736DD203EA3500079FB76 /* QYParallaxScrollViewCell.h */,
+				F26736DE203EA3500079FB76 /* QYParallaxScrollViewCell.m */,
+			);
+			name = QYParallaxScrollView;
+			path = ../QYParallaxScrollView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,7 +163,9 @@
 			files = (
 				F26736C3203EA1090079FB76 /* ViewController.m in Sources */,
 				F26736CE203EA1090079FB76 /* main.m in Sources */,
+				F26736DC203EA2DE0079FB76 /* QYParallaxScrollView.m in Sources */,
 				F26736C0203EA1090079FB76 /* AppDelegate.m in Sources */,
+				F26736DF203EA3500079FB76 /* QYParallaxScrollViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
