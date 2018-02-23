@@ -38,8 +38,22 @@
 
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat tableMinY = scrollView.contentOffset.y;
+    CGFloat tableMaxY = tableMinY + CGRectGetWidth(self.bounds);
+    CGFloat tableMidY = tableMinY + CGRectGetWidth(self.bounds)/2;
+//    NSLog(@"%f", offsetY);
     [self.tableView.visibleCells enumerateObjectsUsingBlock:^(__kindof QYParallaxScrollViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
-        [cell updateWithOffset:scrollView.contentOffset.y];
+        NSInteger index = [_tableView indexPathForCell:cell].row;
+        CGFloat minY = index * QYParallaxScrollViewCell.cellHeight;
+        CGFloat maxY = (index+1) * QYParallaxScrollViewCell.cellHeight;
+        CGFloat midY = index * QYParallaxScrollViewCell.cellHeight*3/2;
+        if (midY < tableMidY) {//-10 --- 0
+            CGFloat gap = tableMinY - minY;
+            [cell rotateByYVector:10*gap/(maxY-minY)];
+        } else {//0 --- 10
+            CGFloat gap = minY - tableMaxY;
+            [cell rotateByYVector:10*gap/(maxY-minY)];
+        }
     }];
 }
 
@@ -54,7 +68,7 @@
 
 #pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return CGRectGetWidth(self.bounds) - 40;
+    return QYParallaxScrollViewCell.cellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

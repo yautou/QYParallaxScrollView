@@ -10,10 +10,14 @@
 
 @interface QYParallaxScrollViewCell : UITableViewCell
 
+@property(class) CGFloat cellHeight;
 @property(nonatomic, strong) UILabel *titleLabel;
 @property(nonatomic, strong) UIImageView *backgroundImageView;
 @property(nonatomic, strong) UILabel *descLabel;
 
-- (void)updateWithOffset:(CGFloat)offset;
+/**
+ 10 --- 0 --- -10
+ */
+- (void)rotateByYVector:(CGFloat)angle;
 
 @end

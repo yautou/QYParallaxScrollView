@@ -47,11 +47,13 @@
     return self;
 }
 
-- (void)updateWithOffset:(CGFloat)offset {
-    NSLog(@"%@ - %f", self.titleLabel.text, offset);
-    
++ (CGFloat)cellHeight {
+    return CGRectGetWidth(UIApplication.sharedApplication.keyWindow.bounds) - 40;
+}
+
+- (void)rotateByYVector:(CGFloat)angle {
     CATransform3D transform = CATransform3DMakeAffineTransform(CGAffineTransformMakeRotation(M_PI / 2));
     transform.m34 = -1./500;
-    self.contentView.layer.transform = CATransform3DRotate(transform, DEGREE(-10), 0, 1, 0);
+    self.contentView.layer.transform = CATransform3DRotate(transform, DEGREE(angle), 0, 1, 0);
 }
 @end
