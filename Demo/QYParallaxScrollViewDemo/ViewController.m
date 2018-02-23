@@ -25,10 +25,10 @@
 //    scrollView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:scrollView];
     
-    [NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0].active = YES;
-    [NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0].active = YES;
-    [NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1 constant:0].active = YES;
-    [NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:200].active = YES;
+    QYLayoutLeading(scrollView, self.view, 0);
+    QYLayoutTrailing(scrollView, self.view, 0);
+    QYLayoutCenterY(scrollView, self.view, 0);
+    QYLayoutHeight(scrollView, nil, 200);
 }
 
 #pragma mark QYParallaxScrollViewDataSource
@@ -38,7 +38,8 @@
 
 - (QYParallaxScrollViewCell *)QYPScrollView:(QYParallaxScrollView *)scrollView cellForItemAtIndex:(NSInteger)index {
     QYParallaxScrollViewCell *cell = [QYParallaxScrollViewCell new];
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", index];
+    cell.titleLabel.text = [NSString stringWithFormat:@"This is title %ld", (long)index];
+    cell.descLabel.text = [NSString stringWithFormat:@"This is description %ld", (long)index];
     return cell;
 }
 

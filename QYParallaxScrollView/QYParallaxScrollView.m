@@ -22,21 +22,25 @@
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableView.backgroundColor = [UIColor lightGrayColor];
         self.tableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
-        self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.tableView.showsVerticalScrollIndicator = NO;
+        self.tableView.showsHorizontalScrollIndicator = NO;
         [self addSubview:self.tableView];
-        [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1 constant:0].active = YES;
-        [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1 constant:0].active = YES;
-        [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0].active = YES;
-        [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0].active = YES;
+        
+        self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        QYLayoutDiffAttr(self.tableView, NSLayoutAttributeWidth, self, NSLayoutAttributeHeight, 0);
+        QYLayoutDiffAttr(self.tableView, NSLayoutAttributeHeight, self, NSLayoutAttributeWidth, 0);
+        QYLayoutCenterX(self.tableView, self, 0);
+        QYLayoutCenterY(self.tableView, self, 0);
     }
     return self;
 }
 
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
+    [self.tableView.visibleCells enumerateObjectsUsingBlock:^(__kindof QYParallaxScrollViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
+        [cell updateWithOffset:scrollView.contentOffset.y];
+    }];
 }
 
 #pragma mark UITableViewDataSource

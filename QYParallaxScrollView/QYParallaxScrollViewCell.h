@@ -10,4 +10,10 @@
 
 @interface QYParallaxScrollViewCell : UITableViewCell
 
+@property(nonatomic, strong) UILabel *titleLabel;
+@property(nonatomic, strong) UIImageView *backgroundImageView;
+@property(nonatomic, strong) UILabel *descLabel;
+
+- (void)updateWithOffset:(CGFloat)offset;
+
 @end

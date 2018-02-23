@@ -32,6 +32,7 @@
 		F26736DB203EA2DE0079FB76 /* QYParallaxScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QYParallaxScrollView.m; sourceTree = "<group>"; };
 		F26736DD203EA3500079FB76 /* QYParallaxScrollViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QYParallaxScrollViewCell.h; sourceTree = "<group>"; };
 		F26736DE203EA3500079FB76 /* QYParallaxScrollViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QYParallaxScrollViewCell.m; sourceTree = "<group>"; };
+		F28DC383203FD8B70087C6D5 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +75,7 @@
 				F26736C9203EA1090079FB76 /* LaunchScreen.storyboard */,
 				F26736CC203EA1090079FB76 /* Info.plist */,
 				F26736CD203EA1090079FB76 /* main.m */,
+				F28DC383203FD8B70087C6D5 /* PrefixHeader.pch */,
 			);
 			path = QYParallaxScrollViewDemo;
 			sourceTree = "<group>";
@@ -301,6 +303,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RP3T2TXYJC;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/QYParallaxScrollViewDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = QYParallaxScrollViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qeye.QYParallaxScrollViewDemo;
@@ -315,6 +319,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RP3T2TXYJC;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/QYParallaxScrollViewDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = QYParallaxScrollViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qeye.QYParallaxScrollViewDemo;
