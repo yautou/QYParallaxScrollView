@@ -10,6 +10,7 @@
 #import "QYParallaxScrollView.h"
 
 @interface ViewController () <QYParallaxScrollViewDelegate, QYParallaxScrollViewDataSource>
+@property (weak, nonatomic) IBOutlet QYParallaxScrollView *parallaxScrollView;
 
 @end
 
@@ -19,17 +20,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    QYParallaxScrollView *scrollView = [QYParallaxScrollView new];
-    scrollView.cellsGap = 10.;
-    scrollView.movementOffset = 20.;
-    scrollView.rotationAngle = 10.;
-    scrollView.delegate = self;
-    scrollView.dataSource = self;
-    [self.view addSubview:scrollView];
-    QYLayoutLeading(scrollView, self.view, 0);
-    QYLayoutTrailing(scrollView, self.view, 0);
-    QYLayoutCenterY(scrollView, self.view, 0);
-    QYLayoutHeight(scrollView, nil, 200);
+    _parallaxScrollView.delegate = self;
+    _parallaxScrollView.dataSource = self;
+    [_parallaxScrollView reloadData];
+}
+
+- (IBAction)sliderValueChanged:(UISlider *)slider {
+    switch (slider.tag) {
+        case 1:_parallaxScrollView.cellsGap = slider.value;break;
+        case 2:_parallaxScrollView.movementOffset = slider.value;break;
+        case 3:_parallaxScrollView.rotationAngle = slider.value;break;
+        default:
+            break;
+    }
+    [_parallaxScrollView reloadData];
 }
 
 #pragma mark QYParallaxScrollViewDataSource

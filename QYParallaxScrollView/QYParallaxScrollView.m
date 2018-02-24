@@ -14,27 +14,36 @@
 
 @implementation QYParallaxScrollView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self customInit];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
-        self.collectionView.backgroundColor = self.backgroundColor;
-        self.collectionView.clipsToBounds = NO;
-        self.collectionView.delegate = self;
-        self.collectionView.dataSource = self;
-        self.collectionView.showsVerticalScrollIndicator = NO;
-        self.collectionView.showsHorizontalScrollIndicator = NO;
-        [self.collectionView registerClass:QYParallaxScrollViewCell.class forCellWithReuseIdentifier:QYParallaxCellIdentifier];
-        [self addSubview:self.collectionView];
-        
-        self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutCenter(self.collectionView, self);
-        QYLayoutSize(self.collectionView, self);
+        [self customInit];
     }
     return self;
+}
+
+- (void)customInit {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    self.collectionView.backgroundColor = self.backgroundColor;
+    self.collectionView.clipsToBounds = NO;
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.showsVerticalScrollIndicator = NO;
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    [self.collectionView registerClass:QYParallaxScrollViewCell.class forCellWithReuseIdentifier:QYParallaxCellIdentifier];
+    [self addSubview:self.collectionView];
+    
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    QYLayoutCenter(self.collectionView, self);
+    QYLayoutSize(self.collectionView, self);
 }
 
 - (QYParallaxScrollViewCell *)dequeueCellWithReuseIdentifier:(NSString *)identifier forIndex:(NSInteger)index {
@@ -43,6 +52,11 @@
 
 - (void)scrollToIndex:(NSInteger)index {
     [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+}
+
+- (void)reloadData {
+    [_collectionView reloadData];
+    [self updateInterface];
 }
 
 - (void)updateInterface {

@@ -32,5 +32,6 @@
 
 - (QYParallaxScrollViewCell *)dequeueCellWithReuseIdentifier:(NSString *)identifier forIndex:(NSInteger)index;
 - (void)scrollToIndex:(NSInteger)index;
+- (void)reloadData;
 
 @end
