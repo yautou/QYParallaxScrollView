@@ -47,7 +47,10 @@
 }
 
 - (QYParallaxScrollViewCell *)dequeueCellWithReuseIdentifier:(NSString *)identifier forIndex:(NSInteger)index {
-    return [_collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    QYParallaxScrollViewCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    [cell rotateByYVector:0];
+    [cell moveByXVector:0];
+    return cell;
 }
 
 - (void)scrollToIndex:(NSInteger)index {
@@ -56,6 +59,7 @@
 
 - (void)reloadData {
     [_collectionView reloadData];
+    [_collectionView.collectionViewLayout invalidateLayout];
     [self updateInterface];
 }
 

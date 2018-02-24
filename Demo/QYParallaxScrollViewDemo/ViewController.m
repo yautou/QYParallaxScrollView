@@ -27,11 +27,10 @@
 
 - (IBAction)sliderValueChanged:(UISlider *)slider {
     switch (slider.tag) {
-        case 1:_parallaxScrollView.cellsGap = slider.value;break;
-        case 2:_parallaxScrollView.movementOffset = slider.value;break;
-        case 3:_parallaxScrollView.rotationAngle = slider.value;break;
-        default:
-            break;
+        case 1:_parallaxScrollView.cellsGap = slider.value;         break;
+        case 2:_parallaxScrollView.movementOffset = slider.value;   break;
+        case 3:_parallaxScrollView.rotationAngle = slider.value;    break;
+        default:break;
     }
     [_parallaxScrollView reloadData];
 }
