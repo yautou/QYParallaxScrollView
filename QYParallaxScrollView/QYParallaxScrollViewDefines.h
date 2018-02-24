@@ -1,14 +1,15 @@
 //
-//  PrefixHeader.pch
+//  QYParallaxScrollViewDefines.h
 //  QYParallaxScrollViewDemo
 //
-//  Created by Qeye Wang on 23/02/2018.
+//  Created by Qeye Wang on 24/02/2018.
 //  Copyright © 2018 Qeye Wang. All rights reserved.
 //
 
-#ifndef PrefixHeader_pch
-#define PrefixHeader_pch
+#ifndef QYParallaxScrollViewDefines_h
+#define QYParallaxScrollViewDefines_h
 
+/*        AutoLayout        */
 #define QYLayoutDeactivate(item)     [NSLayoutConstraint deactivateConstraints:item.constraints];
 
 #define QYLayout(item1, attr1, relation, item2, attr2, m, c)  \
@@ -37,4 +38,9 @@
 
 #define QYLayoutSize(item1, item2)             QYLayoutWidth(item1, item2, 0) \
                                                QYLayoutHeight(item1, item2, 0)
-#endif /* PrefixHeader_pch */
+
+/*        Others        */
+#define QYDegree(d)         ((d) * M_PI / 180.0f)
+static CGFloat QYParallaxCellWidth = 150;
+
+#endif /* QYParallaxScrollViewDefines_h */

@@ -44,6 +44,8 @@
 
 #pragma mark QYParallaxScrollViewDelegate
 - (void)QYPScrollView:(QYParallaxScrollView *)scrollView didSelectItemAtIndex:(NSInteger)index {
-    
+    NSLog(@"%s --- %ld", __FUNCTION__, (long)index);
+    [scrollView scrollToIndex:index];
 }
+
 @end

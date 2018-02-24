@@ -7,17 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QYParallaxScrollViewDefines.h"
 
 @interface QYParallaxScrollViewCell : UITableViewCell
 
 @property(readonly, class) CGFloat cellHeight;
+
 @property(nonatomic, strong) UILabel *titleLabel;
 @property(nonatomic, strong) UIImageView *backgroundImageView;
 @property(nonatomic, strong) UILabel *descLabel;
 
-/**
- 10 --- 0 --- -10
- */
 - (void)rotateByYVector:(CGFloat)angle;
 
 - (void)adjustBackgroundImageByXVector:(CGFloat)offset;

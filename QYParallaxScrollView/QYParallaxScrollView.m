@@ -19,6 +19,7 @@
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
         self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        self.tableView.clipsToBounds = NO;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -29,7 +30,7 @@
         
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
         QYLayoutDiffAttr(self.tableView, NSLayoutAttributeWidth, self, NSLayoutAttributeHeight, 0);
-        QYLayoutDiffAttr(self.tableView, NSLayoutAttributeHeight, self, NSLayoutAttributeWidth, 0);
+        QYLayoutDiffAttr(self.tableView, NSLayoutAttributeHeight, self, NSLayoutAttributeWidth, -20);
         QYLayoutCenterX(self.tableView, self, 0);
         QYLayoutCenterY(self.tableView, self, 0);
     }
@@ -42,6 +43,9 @@
     return cell;
 }
 
+- (void)scrollToIndex:(NSInteger)index {
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+}
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat tableMinY = scrollView.contentOffset.y;

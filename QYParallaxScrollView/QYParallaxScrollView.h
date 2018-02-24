@@ -11,6 +11,7 @@
 
 @class QYParallaxScrollView;
 @protocol QYParallaxScrollViewDataSource <NSObject>
+@required
 - (NSInteger)numberOfItemsInQYPScrollView:(QYParallaxScrollView *)scrollView;
 - (QYParallaxScrollViewCell *)QYPScrollView:(QYParallaxScrollView *)scrollView cellForItemAtIndex:(NSInteger)index;
 @end
@@ -25,5 +26,6 @@
 @property (nonatomic, weak) id <QYParallaxScrollViewDataSource> dataSource;
 
 - (QYParallaxScrollViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;
+- (void)scrollToIndex:(NSInteger)index;
 
 @end

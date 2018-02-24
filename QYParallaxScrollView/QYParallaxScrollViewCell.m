@@ -7,7 +7,6 @@
 //
 
 #import "QYParallaxScrollViewCell.h"
-#define DEGREE(d)            ((d) * M_PI / 180.0f)
 
 @interface QYParallaxScrollViewCell ()
 @property(nonatomic, strong) UIView *viewContainer;
@@ -26,8 +25,8 @@
         self.viewContainer.transform = CGAffineTransformMakeRotation(M_PI / 2);
         [self.contentView addSubview:self.viewContainer];
         self.viewContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutDiffAttr(self.viewContainer, NSLayoutAttributeWidth, self.contentView, NSLayoutAttributeHeight, -20);
-        QYLayoutDiffAttr(self.viewContainer, NSLayoutAttributeHeight, self.contentView, NSLayoutAttributeWidth, -20);
+        QYLayoutDiffAttr(self.viewContainer, NSLayoutAttributeWidth, self.contentView, NSLayoutAttributeHeight, -10);
+        QYLayoutDiffAttr(self.viewContainer, NSLayoutAttributeHeight, self.contentView, NSLayoutAttributeWidth, -10);
         QYLayoutCenter(self.viewContainer, self.contentView);
         
         self.backgroundImageView = [UIImageView new];
@@ -43,7 +42,7 @@
         self.titleLabel.textColor = [UIColor whiteColor];
         [self.viewContainer addSubview:self.titleLabel];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutTop(self.titleLabel, self.viewContainer, 5);
+        QYLayoutTop(self.titleLabel, self.viewContainer, 10);
         QYLayoutLeading(self.titleLabel, self.viewContainer, 5);
         
         self.descLabel = [UILabel new];
@@ -64,7 +63,7 @@
 - (void)rotateByYVector:(CGFloat)angle {
     CATransform3D transform = CATransform3DMakeAffineTransform(CGAffineTransformMakeRotation(M_PI / 2));
     transform.m34 = -1./500;
-    self.viewContainer.layer.transform = CATransform3DRotate(transform, DEGREE(angle), 0, 1, 0);
+    self.viewContainer.layer.transform = CATransform3DRotate(transform, QYDegree(angle), 0, 1, 0);
 }
 
 - (void)adjustBackgroundImageByXVector:(CGFloat)offset {
