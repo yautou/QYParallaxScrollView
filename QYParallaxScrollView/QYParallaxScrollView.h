@@ -24,4 +24,6 @@
 @property (nonatomic, weak) id <QYParallaxScrollViewDelegate> delegate;
 @property (nonatomic, weak) id <QYParallaxScrollViewDataSource> dataSource;
 
+- (QYParallaxScrollViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;
+
 @end

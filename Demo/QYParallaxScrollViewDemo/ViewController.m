@@ -22,9 +22,7 @@
     QYParallaxScrollView *scrollView = [QYParallaxScrollView new];
     scrollView.delegate = self;
     scrollView.dataSource = self;
-//    scrollView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:scrollView];
-    
     QYLayoutLeading(scrollView, self.view, 0);
     QYLayoutTrailing(scrollView, self.view, 0);
     QYLayoutCenterY(scrollView, self.view, 0);
@@ -33,13 +31,14 @@
 
 #pragma mark QYParallaxScrollViewDataSource
 - (NSInteger)numberOfItemsInQYPScrollView:(QYParallaxScrollView *)scrollView {
-    return 17;
+    return 5;
 }
 
 - (QYParallaxScrollViewCell *)QYPScrollView:(QYParallaxScrollView *)scrollView cellForItemAtIndex:(NSInteger)index {
-    QYParallaxScrollViewCell *cell = [QYParallaxScrollViewCell new];
+    QYParallaxScrollViewCell *cell = [scrollView dequeueReusableCellWithIdentifier:@"ParallaxCell"];
     cell.titleLabel.text = [NSString stringWithFormat:@"This is title %ld", (long)index];
     cell.descLabel.text = [NSString stringWithFormat:@"This is description %ld", (long)index];
+    cell.backgroundImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%ld", index+1]];
     return cell;
 }
 

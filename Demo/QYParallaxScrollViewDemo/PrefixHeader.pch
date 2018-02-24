@@ -9,25 +9,32 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
-#define QYLayout(item1, attr1, relation, item2, attr2, m, offset)  \
+#define QYLayoutDeactivate(item)     [NSLayoutConstraint deactivateConstraints:item.constraints];
+
+#define QYLayout(item1, attr1, relation, item2, attr2, m, c)  \
         [NSLayoutConstraint constraintWithItem:item1 \
                                      attribute:attr1 \
                                      relatedBy:relation \
                                         toItem:item2 \
                                      attribute:item2 ? attr2 : NSLayoutAttributeNotAnAttribute \
                                     multiplier:m \
-                                      constant:offset].active = YES
+                                      constant:c].active = YES;
 
-#define QYLayoutSameAttr(item1, item2, attr, offset)                QYLayout(item1, attr, NSLayoutRelationEqual, item2, attr, 1, offset)
-#define QYLayoutDiffAttr(item1, attr1, item2, attr2, offset)        QYLayout(item1, attr1, NSLayoutRelationEqual, item2, attr2, 1, offset)
+#define QYLayoutSameAttr(item1, item2, attr, c)                QYLayout(item1, attr, NSLayoutRelationEqual, item2, attr, 1, c)
+#define QYLayoutDiffAttr(item1, attr1, item2, attr2, c)        QYLayout(item1, attr1, NSLayoutRelationEqual, item2, attr2, 1, c)
 
-#define QYLayoutTop(item1, item2, offset)           QYLayoutSameAttr(item1, item2, NSLayoutAttributeTop, offset)
-#define QYLayoutBottom(item1, item2, offset)        QYLayoutSameAttr(item1, item2, NSLayoutAttributeBottom, offset)
-#define QYLayoutLeading(item1, item2, offset)       QYLayoutSameAttr(item1, item2, NSLayoutAttributeLeading, offset)
-#define QYLayoutTrailing(item1, item2, offset)      QYLayoutSameAttr(item1, item2, NSLayoutAttributeTrailing, offset)
-#define QYLayoutCenterX(item1, item2, offset)       QYLayoutSameAttr(item1, item2, NSLayoutAttributeCenterX, offset)
-#define QYLayoutCenterY(item1, item2, offset)       QYLayoutSameAttr(item1, item2, NSLayoutAttributeCenterY, offset)
-#define QYLayoutWidth(item1, item2, offset)         QYLayoutSameAttr(item1, item2, NSLayoutAttributeWidth, offset)
-#define QYLayoutHeight(item1, item2, offset)        QYLayoutSameAttr(item1, item2, NSLayoutAttributeHeight, offset)
+#define QYLayoutTop(item1, item2, c)           QYLayoutSameAttr(item1, item2, NSLayoutAttributeTop, c)
+#define QYLayoutBottom(item1, item2, c)        QYLayoutSameAttr(item1, item2, NSLayoutAttributeBottom, c)
+#define QYLayoutLeading(item1, item2, c)       QYLayoutSameAttr(item1, item2, NSLayoutAttributeLeading, c)
+#define QYLayoutTrailing(item1, item2, c)      QYLayoutSameAttr(item1, item2, NSLayoutAttributeTrailing, c)
+#define QYLayoutCenterX(item1, item2, c)       QYLayoutSameAttr(item1, item2, NSLayoutAttributeCenterX, c)
+#define QYLayoutCenterY(item1, item2, c)       QYLayoutSameAttr(item1, item2, NSLayoutAttributeCenterY, c)
+#define QYLayoutWidth(item1, item2, c)         QYLayoutSameAttr(item1, item2, NSLayoutAttributeWidth, c)
+#define QYLayoutHeight(item1, item2, c)        QYLayoutSameAttr(item1, item2, NSLayoutAttributeHeight, c)
 
+#define QYLayoutCenter(item1, item2)           QYLayoutCenterX(item1, item2, 0)  \
+                                               QYLayoutCenterY(item1, item2, 0)
+
+#define QYLayoutSize(item1, item2)             QYLayoutWidth(item1, item2, 0) \
+                                               QYLayoutHeight(item1, item2, 0)
 #endif /* PrefixHeader_pch */
