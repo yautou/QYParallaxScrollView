@@ -42,5 +42,6 @@
 /*        Others        */
 #define QYDegree(d)         ((d) * M_PI / 180.0f)
 static CGFloat QYParallaxCellWidth = 150;
+static NSString * QYParallaxCellIdentifier = @"QYParallaxCell";
 
 #endif /* QYParallaxScrollViewDefines_h */

@@ -9,65 +9,51 @@
 #import "QYParallaxScrollViewCell.h"
 
 @interface QYParallaxScrollViewCell ()
-@property(nonatomic, strong) UIView *viewContainer;
 @end
 
 @implementation QYParallaxScrollViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        self.viewContainer = [UIView new];
-        self.viewContainer.layer.masksToBounds = YES;
-        self.viewContainer.layer.cornerRadius = 10.;
-        self.viewContainer.layer.allowsEdgeAntialiasing = YES;    //!Important
-        self.viewContainer.transform = CGAffineTransformMakeRotation(M_PI / 2);
-        [self.contentView addSubview:self.viewContainer];
-        self.viewContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutDiffAttr(self.viewContainer, NSLayoutAttributeWidth, self.contentView, NSLayoutAttributeHeight, -10);
-        QYLayoutDiffAttr(self.viewContainer, NSLayoutAttributeHeight, self.contentView, NSLayoutAttributeWidth, -10);
-        QYLayoutCenter(self.viewContainer, self.contentView);
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        self.contentView.layer.masksToBounds = YES;
+        self.contentView.layer.cornerRadius = 10.;
+        self.contentView.layer.allowsEdgeAntialiasing = YES;    //!Important
         
         self.backgroundImageView = [UIImageView new];
         self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.viewContainer addSubview:self.backgroundImageView];
+        [self.contentView addSubview:self.backgroundImageView];
         self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutCenter(self.backgroundImageView, self.viewContainer);
-        QYLayoutWidth(self.backgroundImageView, self.viewContainer, 40);
-        QYLayoutHeight(self.backgroundImageView, self.viewContainer, 40);
+        QYLayoutCenter(self.backgroundImageView, self.contentView);
+        QYLayoutWidth(self.backgroundImageView, self.contentView, 40);
+        QYLayoutHeight(self.backgroundImageView, self.contentView, 40);
         
         self.titleLabel = [UILabel new];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:22.];
         self.titleLabel.textColor = [UIColor whiteColor];
-        [self.viewContainer addSubview:self.titleLabel];
+        [self.contentView addSubview:self.titleLabel];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutTop(self.titleLabel, self.viewContainer, 10);
-        QYLayoutLeading(self.titleLabel, self.viewContainer, 5);
+        QYLayoutTop(self.titleLabel, self.contentView, 5);
+        QYLayoutLeading(self.titleLabel, self.contentView, 10);
         
         self.descLabel = [UILabel new];
         self.descLabel.font = [UIFont systemFontOfSize:14.];
         self.descLabel.textColor = [UIColor whiteColor];
-        [self.viewContainer addSubview:self.descLabel];
+        [self.contentView addSubview:self.descLabel];
         self.descLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutBottom(self.descLabel, self.viewContainer, -5);
-        QYLayoutCenterX(self.descLabel, self.viewContainer, 0);
+        QYLayoutBottom(self.descLabel, self.contentView, -5);
+        QYLayoutCenterX(self.descLabel, self.contentView, 0);
     }
     return self;
 }
 
-+ (CGFloat)cellHeight {
-    return CGRectGetWidth(UIApplication.sharedApplication.keyWindow.bounds) - 40;
-}
-
 - (void)rotateByYVector:(CGFloat)angle {
-    CATransform3D transform = CATransform3DMakeAffineTransform(CGAffineTransformMakeRotation(M_PI / 2));
+    CATransform3D transform = CATransform3DIdentity;
     transform.m34 = -1./500;
-    self.viewContainer.layer.transform = CATransform3DRotate(transform, QYDegree(angle), 0, 1, 0);
+    self.contentView.layer.transform = CATransform3DRotate(transform, QYDegree(angle), 0, 1, 0);
 }
 
-- (void)adjustBackgroundImageByXVector:(CGFloat)offset {
-    for (NSLayoutConstraint *constraint in self.viewContainer.constraints) {
+- (void)moveByXVector:(CGFloat)offset {
+    for (NSLayoutConstraint *constraint in self.contentView.constraints) {
         if (constraint.firstItem == self.backgroundImageView && constraint.firstAttribute == NSLayoutAttributeCenterX) {
             constraint.constant = offset;
         }

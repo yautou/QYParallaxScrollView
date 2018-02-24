@@ -8,8 +8,8 @@
 
 #import "QYParallaxScrollView.h"
 
-@interface QYParallaxScrollView () <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UITableView *tableView;
+@interface QYParallaxScrollView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@property (nonatomic, strong) UICollectionView *collectionView;
 @end
 
 @implementation QYParallaxScrollView
@@ -18,68 +18,91 @@
     if (self = [super initWithFrame:frame]) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        self.tableView.clipsToBounds = NO;
-        self.tableView.delegate = self;
-        self.tableView.dataSource = self;
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
-        self.tableView.showsVerticalScrollIndicator = NO;
-        self.tableView.showsHorizontalScrollIndicator = NO;
-        [self addSubview:self.tableView];
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+        self.collectionView.backgroundColor = self.backgroundColor;
+        self.collectionView.clipsToBounds = NO;
+        self.collectionView.delegate = self;
+        self.collectionView.dataSource = self;
+        self.collectionView.showsVerticalScrollIndicator = NO;
+        self.collectionView.showsHorizontalScrollIndicator = NO;
+        [self.collectionView registerClass:QYParallaxScrollViewCell.class forCellWithReuseIdentifier:QYParallaxCellIdentifier];
+        [self addSubview:self.collectionView];
         
-        self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        QYLayoutDiffAttr(self.tableView, NSLayoutAttributeWidth, self, NSLayoutAttributeHeight, 0);
-        QYLayoutDiffAttr(self.tableView, NSLayoutAttributeHeight, self, NSLayoutAttributeWidth, -20);
-        QYLayoutCenterX(self.tableView, self, 0);
-        QYLayoutCenterY(self.tableView, self, 0);
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        QYLayoutCenter(self.collectionView, self);
+        QYLayoutSize(self.collectionView, self);
     }
     return self;
 }
 
-- (QYParallaxScrollViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier {
-    QYParallaxScrollViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) cell = [[QYParallaxScrollViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    return cell;
+- (QYParallaxScrollViewCell *)dequeueCellWithReuseIdentifier:(NSString *)identifier forIndex:(NSInteger)index {
+    return [_collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
 }
 
 - (void)scrollToIndex:(NSInteger)index {
-    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }
-#pragma mark UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat tableMinY = scrollView.contentOffset.y;
+
+- (void)updateInterface {
+    CGFloat tableMinY = _collectionView.contentOffset.x;
     CGFloat tableMaxY = tableMinY + CGRectGetWidth(self.bounds);
-    [self.tableView.visibleCells enumerateObjectsUsingBlock:^(__kindof QYParallaxScrollViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
-        //rotate whole card
-        NSInteger index = [_tableView indexPathForCell:cell].row;
-        CGFloat minY = index * QYParallaxScrollViewCell.cellHeight;
-        CGFloat midY = minY + QYParallaxScrollViewCell.cellHeight/2;
+    [self.collectionView.visibleCells enumerateObjectsUsingBlock:^(__kindof QYParallaxScrollViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSInteger index = [self.collectionView indexPathForCell:cell].row;
+        CGFloat minY = index * CGRectGetWidth(cell.bounds);
+        CGFloat midY = minY + CGRectGetWidth(cell.bounds)/2;
+        CGFloat multiplier = 2 * (tableMaxY-midY)/(tableMaxY-tableMinY) - 1;
         
-        CGFloat angle = 20*(tableMaxY-midY)/(tableMaxY-tableMinY) - 10;
-        [cell rotateByYVector:angle];
+        //rotate whole card
+        if (_rotationAngle != 0) {
+            [cell rotateByYVector:_rotationAngle * multiplier];
+        }
         
         //adjust background image
-        CGFloat offset = 40*(tableMaxY-midY)/(tableMaxY-tableMinY) - 20;
-        [cell adjustBackgroundImageByXVector:offset];
+        if (_movementOffset != 0) {
+            [cell moveByXVector:_movementOffset * multiplier];
+        }
     }];
 }
 
-#pragma mark UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+#pragma mark UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self updateInterface];
+}
+
+#pragma mark UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [self.dataSource numberOfItemsInQYPScrollView:self];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     return [self.dataSource QYPScrollView:self cellForItemAtIndex:indexPath.row];
 }
 
-#pragma mark UITableViewDelegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return QYParallaxScrollViewCell.cellHeight;
+#pragma mark UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.delegate QYPScrollView:self didSelectItemAtIndex:indexPath.row];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.delegate QYPScrollView:self didSelectItemAtIndex:indexPath.row];
+#pragma mark UICollectionViewDelegateFlowLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.delegate QYPScrollView:self sizeForItemAtIndex:indexPath.row];
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsZero;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return _cellsGap == 0 ? CGFLOAT_MIN : _cellsGap;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake(_cellsGap, 1);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return CGSizeMake(_cellsGap, 1);
 }
 @end
